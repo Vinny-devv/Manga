@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="description" content="V Scans — Free Manga & Manhwa reading website. Read the latest chapters online.">
+  <meta name="theme-color" content="#0d0d14">
+
+  <title>V Scans — Read Manga &amp; Manhwa Free</title>
+
+  <!-- ── Google Fonts ─────────────────────────────────────── -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- ── Font Awesome ─────────────────────────────────────── -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- ── Tailwind CSS (CDN) ────────────────────────────────── -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'vs-bg':       '#0d0d14',
+            'vs-bg2':      '#12121e',
+            'vs-card':     '#1a1a2e',
+            'vs-purple':   '#7c3aed',
+            'vs-cyan':     '#06b6d4',
+            'vs-pink':     '#ec4899',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- ── Custom Styles ─────────────────────────────────────── -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     APP SHELL
+═══════════════════════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- ── Top Navbar ─────────────────────────────────────────── -->
+  <nav id="navbar" aria-label="Main navigation">
+
+    <!-- Hamburger (mobile only) -->
+    <button id="sidebar-toggle" aria-label="Open navigation menu" aria-expanded="false">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <!-- Logo -->
+    <a href="#/" class="logo" aria-label="V Scans Home">
+      <img src="https://i.ibb.co/3YQx1Md2/0-DC7-EA69-7-A2-D-4588-9-BAE-3-D8018-FBA6-D0.png"
+           alt="V Scans Logo"
+           onerror="this.outerHTML='<span style=\'font-family:Cairo,sans-serif;font-weight:700;font-size:1.25rem;color:#7c3aed\'>V Scans</span>'">
+    </a>
+
+    <!-- Auth area -->
+    <div id="auth-area" style="position:relative">
+
+      <!-- Google Sign-In Button (shown when logged out) -->
+      <button id="btn-google-signin" style="display:flex" aria-label="Sign in with Google">
+        <i class="fa-brands fa-google"></i>
+        <span>Sign In</span>
+      </button>
+
+      <!-- User Profile Trigger (shown when logged in) -->
+      <button id="user-menu-trigger" style="display:none" aria-label="User menu" aria-haspopup="true">
+        <img id="user-avatar" src="" alt="Avatar">
+        <span id="user-display-name">User</span>
+        <i class="fa-solid fa-chevron-down" style="font-size:0.7rem;opacity:0.6"></i>
+      </button>
+
+      <!-- Dropdown Menu -->
+      <div id="user-dropdown" style="display:none" role="menu">
+        <button id="btn-open-profile" role="menuitem">
+          <i class="fa-solid fa-user-pen"></i> Profile Settings
+        </button>
+        <hr class="divider">
+        <button id="btn-signout" role="menuitem">
+          <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+        </button>
+      </div>
+
+    </div>
+  </nav>
+  <!-- /Navbar -->
+
+  <!-- ── Layout Shell (Sidebar + Main) ─────────────────────── -->
+  <div id="layout-shell" style="display:flex;flex:1;min-height:0">
+
+    <!-- Sidebar Overlay (mobile) -->
+    <div id="sidebar-overlay" aria-hidden="true"></div>
+
+    <!-- ── Sidebar Navigation ─────────────────────────────── -->
+    <aside id="sidebar" aria-label="Site navigation">
+
+      <nav>
+        <!-- Home -->
+        <a href="#/" class="sidebar-link active" aria-label="Go to Home">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+
+        <!-- Categories -->
+        <a href="#/categories" class="sidebar-link" aria-label="Browse Categories">
+          <i class="fa-solid fa-tags"></i>
+          <span>Categories</span>
+        </a>
+
+        <!-- Donate -->
+        <a href="#/donate" class="sidebar-link" aria-label="Donate to support us">
+          <i class="fa-brands fa-paypal"></i>
+          <span>Donate</span>
+        </a>
+
+        <!-- Admin Panel (admin only — hidden by default) -->
+        <a href="#/admin" class="sidebar-link" id="admin-nav-link" style="display:none;color:#ec4899" aria-label="Admin Panel">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Admin Panel</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-spacer"></div>
+
+      <!-- Sidebar Footer -->
+      <div style="padding:1rem 1.5rem;border-top:1px solid rgba(124,58,237,0.15)">
+        <p style="font-size:0.75rem;color:var(--text-muted)">
+          © 2025 V Scans. All rights reserved.
+        </p>
+      </div>
+
+    </aside>
+    <!-- /Sidebar -->
+
+    <!-- ── Main Content Area ─────────────────────────────────── -->
+    <main id="main-content" role="main" aria-live="polite">
+      <!-- Pages render here dynamically -->
+      <div class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Loading V Scans…</p>
+      </div>
+    </main>
+    <!-- /Main Content -->
+
+  </div>
+  <!-- /Layout Shell -->
+
+</div>
+<!-- /App -->
+
+<!-- ── Toast Container ───────────────────────────────────── -->
+<div id="toast-container" aria-live="assertive" aria-atomic="true"></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCRIPTS — Firebase SDK (ESM) + App
+═══════════════════════════════════════════════════════════ -->
+<script type="module" src="app.js"></script>
+
+</body>
+</html>
